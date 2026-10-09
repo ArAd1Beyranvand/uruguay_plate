@@ -1,0 +1,20 @@
+name: uruguay_plate
+description: "Uruguay's licence plates for the plate_core library — 2007 serial plates by category and the 2016 Mercosur plate, themes, alphabets, advisory validator."
+version: 0.1.0
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plate_core: ^0.11.5
+  plate_alphabet: ^0.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
