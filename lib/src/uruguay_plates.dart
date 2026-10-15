@@ -6,6 +6,7 @@ import 'package:plate_core/plate_core.dart';
 
 import 'uruguay_colors.dart';
 import 'uruguay_country.dart';
+import 'uruguay_regions.dart';
 
 /// Where the ink sits, in plate units.
 ///
@@ -298,6 +299,7 @@ abstract final class UruguayPlates {
         PlateTextGroup(<int>[0, 1], key: 'first'),
         PlateTextGroup(<int>[2], key: 'number'),
       ],
+      resolveRegion: UruguayRegions.captionOf,
     );
   }
 }

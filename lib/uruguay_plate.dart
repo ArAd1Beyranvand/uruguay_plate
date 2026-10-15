@@ -9,3 +9,4 @@ export 'src/uruguay_themes.dart';
 export 'src/uruguay_plates.dart';
 export 'src/uruguay_validators.dart';
 export 'package:plate_alphabet/plate_alphabet.dart' show UruguayAlphabets;
+export 'src/uruguay_regions.dart';
