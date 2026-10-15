@@ -26,44 +26,49 @@ void main() {
   /// category id -> (spec, theme, space-separated sample value)
   final Map<String, (PlateSpec, PlateTheme, String)>
   cases = <String, (PlateSpec, PlateTheme, String)>{
-    'private': (UruguayPlates.private, UruguayThemes.private, 'L A A 2 8 2 1'),
+    'private': (UruguayPlates.private, UruguayThemes.private, 'L AA 2821'),
     'official': (
       UruguayPlates.official,
       UruguayThemes.official,
-      'S O F 1 0 5 7',
+      'S OF 1057',
     ),
     'ambulance': (
       UruguayPlates.ambulance,
       UruguayThemes.medical,
-      'L A M 1 0 3 2',
+      'L AM 1032',
     ),
-    'doctor': (UruguayPlates.doctor, UruguayThemes.medical, 'L M E 1 0 9 6'),
+    'doctor': (UruguayPlates.doctor, UruguayThemes.medical, 'L ME 1096'),
     'assembly': (
       UruguayPlates.assembly,
       UruguayThemes.assembly,
-      'L E D 0 0 2 8',
+      'L ED 0028',
     ),
-    'president': (UruguayPlates.president, UruguayThemes.president, 'L P E 1'),
-    'remise': (UruguayPlates.remise, UruguayThemes.yellow, 'L R E 1 0 5 8'),
-    'taxi': (UruguayPlates.taxi, UruguayThemes.yellow, 'L T X 1 0 0 9'),
+    'president': (UruguayPlates.president, UruguayThemes.president, 'L PE 1'),
+    'remise': (UruguayPlates.remise, UruguayThemes.yellow, 'L RE 1058'),
+    'taxi': (UruguayPlates.taxi, UruguayThemes.yellow, 'L TX 1009'),
     'transport': (
       UruguayPlates.publicTransport,
       UruguayThemes.yellow,
-      'L T C 1 0 3 3',
+      'L TC 1033',
     ),
-    'school': (UruguayPlates.school, UruguayThemes.yellow, 'L E S 1 2 3 4'),
-    'tourist': (UruguayPlates.tourist, UruguayThemes.yellow, 'L M T 1 0 0 2'),
-    'truck': (UruguayPlates.truck, UruguayThemes.truck, 'A T P 1 2 3 4'),
-    'rental': (UruguayPlates.rental, UruguayThemes.rental, 'L A L 1 2 0 9'),
+    'school': (UruguayPlates.school, UruguayThemes.yellow, 'L ES 1234'),
+    'tourist': (UruguayPlates.tourist, UruguayThemes.yellow, 'L MT 1002'),
+    'truck': (UruguayPlates.truck, UruguayThemes.truck, 'A TP 1234'),
+    'rental': (UruguayPlates.rental, UruguayThemes.rental, 'L AL 1209'),
     'diplomatic': (
       UruguayPlates.diplomatic,
       UruguayThemes.diplomatic,
-      'S C D 1 2 3 4',
+      'S CD 1234',
+    ),
+    'private_short': (
+      UruguayPlates.private,
+      UruguayThemes.private,
+      'L AA 21',
     ),
     'mercosur': (
       UruguayPlates.mercosur,
       UruguayThemes.mercosur,
-      'B G A 0 4 0 6',
+      'B GA 0406',
     ),
   };
 
@@ -104,4 +109,15 @@ void main() {
       controller.dispose();
     });
   }
+
+  test('the number completes from one digit', () {
+    final PlateController controller = PlateController.fromValues(
+      UruguayPlates.private,
+      <String?>['L', 'AA', '2'],
+    );
+    expect(controller.isCompleted, isTrue);
+    controller.setAt(2, '');
+    expect(controller.isCompleted, isFalse);
+    controller.dispose();
+  });
 }

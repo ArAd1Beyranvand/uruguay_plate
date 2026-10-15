@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart' show Color, EdgeInsets;
 import 'package:plate_alphabet/plate_alphabet.dart';
 import 'package:plate_core/plate_core.dart';
@@ -166,19 +168,17 @@ abstract final class UruguayPlates {
         _Layout.serialTop,
         _Layout.serialHeight,
       ),
-      ...plateRegister(
-        alphabet: UruguayAlphabets.digits,
-        count: s.digits,
-        left: _Layout.digitsRight - s.digits * _Layout.digitsPitch,
+      _digits(
+        right: _Layout.digitsRight,
+        pitch: _Layout.digitsPitch,
         top: _Layout.serialTop,
-        width: _Layout.digitsPitch,
         height: _Layout.serialHeight,
+        count: s.digits,
       ),
     ];
     return _spec(
       id: s.id,
       slots: slots,
-      letterCount: 3,
       background: s.background,
       rules: s.cross
           ? const <PlateRule>[
@@ -209,19 +209,17 @@ abstract final class UruguayPlates {
         _Layout.mercosurTop,
         _Layout.mercosurHeight,
       ),
-      ...plateRegister(
-        alphabet: UruguayAlphabets.digits,
-        count: 4,
-        left: _Layout.mercosurDigitsRight - 4 * _Layout.mercosurDigitsPitch,
+      _digits(
+        right: _Layout.mercosurDigitsRight,
+        pitch: _Layout.mercosurDigitsPitch,
         top: _Layout.mercosurTop,
-        width: _Layout.mercosurDigitsPitch,
         height: _Layout.mercosurHeight,
+        count: 4,
       ),
     ];
     return _spec(
       id: 'uy.mercosur',
       slots: slots,
-      letterCount: 3,
       background: const PlateSection.rows(<PlatePart>[
         PlatePart(
           PlateSection.fill(PlateFill.color(UruguayColors.mercosurBand)),
@@ -240,35 +238,45 @@ abstract final class UruguayPlates {
     );
   }
 
-  /// Three letters, the first a department code.
+  /// Three letters, the first a department code: two slots, because the
+  /// first is drawn from a narrower alphabet.
   static List<PlateSlot> _letters(
     double left,
     double pitch,
     double top,
     double height,
   ) => <PlateSlot>[
-    ...plateRegister(
+    PlateSlot(
       alphabet: UruguayAlphabets.department,
-      count: 1,
-      left: left,
-      top: top,
-      width: pitch,
-      height: height,
+      box: PlateBox(left, top, pitch, height),
+      length: 1,
     ),
-    ...plateRegister(
+    PlateSlot(
       alphabet: UruguayAlphabets.letters,
-      count: 2,
-      left: left + pitch,
-      top: top,
-      width: pitch,
-      height: height,
+      box: PlateBox(left + pitch, top, 2 * pitch, height),
+      length: 2,
+      spacing: max(0, pitch - 0.6 * 0.72 * height),
     ),
   ];
+
+  /// The number, right-aligned to [right]; [count] is the most it holds, and
+  /// it may be as short as one digit.
+  static PlateSlot _digits({
+    required double right,
+    required double pitch,
+    required double top,
+    required double height,
+    required int count,
+  }) => PlateSlot(
+    alphabet: UruguayAlphabets.digits,
+    box: PlateBox(right - count * pitch, top, count * pitch, height),
+    length: count,
+    minLength: count > 1 ? 1 : null,
+  );
 
   static PlateSpec _spec({
     required String id,
     required List<PlateSlot> slots,
-    required int letterCount,
     required PlateSection background,
     required List<PlateLabel> labels,
     List<PlateRule> rules = const <PlateRule>[],
@@ -287,12 +295,8 @@ abstract final class UruguayPlates {
       rules: rules,
       labels: labels,
       textGroups: <PlateTextGroup>[
-        PlateTextGroup(<int>[
-          for (int i = 0; i < letterCount; i++) i,
-        ], key: 'first'),
-        PlateTextGroup(<int>[
-          for (int i = letterCount; i < slots.length; i++) i,
-        ], key: 'number'),
+        PlateTextGroup(<int>[0, 1], key: 'first'),
+        PlateTextGroup(<int>[2], key: 'number'),
       ],
     );
   }
