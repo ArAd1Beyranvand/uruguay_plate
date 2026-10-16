@@ -162,24 +162,17 @@ abstract final class UruguayPlates {
   ];
 
   static PlateSpec _serial(_Serial s) {
-    final List<PlateSlot> slots = <PlateSlot>[
-      ..._letters(
-        _Layout.lettersLeft,
-        _Layout.lettersPitch,
-        _Layout.serialTop,
-        _Layout.serialHeight,
-      ),
-      _digits(
-        right: _Layout.digitsRight,
-        pitch: _Layout.digitsPitch,
-        top: _Layout.serialTop,
-        height: _Layout.serialHeight,
-        count: s.digits,
-      ),
-    ];
     return _spec(
       id: s.id,
-      slots: slots,
+      slots: _slots(
+        lettersLeft: _Layout.lettersLeft,
+        lettersPitch: _Layout.lettersPitch,
+        digitsRight: _Layout.digitsRight,
+        digitsPitch: _Layout.digitsPitch,
+        top: _Layout.serialTop,
+        height: _Layout.serialHeight,
+        digits: s.digits,
+      ),
       background: s.background,
       rules: s.cross
           ? const <PlateRule>[
@@ -203,24 +196,17 @@ abstract final class UruguayPlates {
   }
 
   static PlateSpec _mercosur() {
-    final List<PlateSlot> slots = <PlateSlot>[
-      ..._letters(
-        _Layout.mercosurLettersLeft,
-        _Layout.mercosurLettersPitch,
-        _Layout.mercosurTop,
-        _Layout.mercosurHeight,
-      ),
-      _digits(
-        right: _Layout.mercosurDigitsRight,
-        pitch: _Layout.mercosurDigitsPitch,
-        top: _Layout.mercosurTop,
-        height: _Layout.mercosurHeight,
-        count: 4,
-      ),
-    ];
     return _spec(
       id: 'uy.mercosur',
-      slots: slots,
+      slots: _slots(
+        lettersLeft: _Layout.mercosurLettersLeft,
+        lettersPitch: _Layout.mercosurLettersPitch,
+        digitsRight: _Layout.mercosurDigitsRight,
+        digitsPitch: _Layout.mercosurDigitsPitch,
+        top: _Layout.mercosurTop,
+        height: _Layout.mercosurHeight,
+        digits: 4,
+      ),
       background: const PlateSection.rows(<PlatePart>[
         PlatePart(
           PlateSection.fill(PlateFill.color(UruguayColors.mercosurBand)),
@@ -239,41 +225,41 @@ abstract final class UruguayPlates {
     );
   }
 
-  /// Three letters, the first a department code: two slots, because the
-  /// first is drawn from a narrower alphabet.
-  static List<PlateSlot> _letters(
-    double left,
-    double pitch,
-    double top,
-    double height,
-  ) => <PlateSlot>[
+  /// Three letters, the first a department code, so two slots: the first is
+  /// drawn from a narrower alphabet. The number is right-aligned to
+  /// [digitsRight] and holds up to [digits], as few as one.
+  static List<PlateSlot> _slots({
+    required double lettersLeft,
+    required double lettersPitch,
+    required double digitsRight,
+    required double digitsPitch,
+    required double top,
+    required double height,
+    required int digits,
+  }) => <PlateSlot>[
     PlateSlot(
       alphabet: UruguayAlphabets.department,
-      box: PlateBox(left, top, pitch, height),
+      box: PlateBox(lettersLeft, top, lettersPitch, height),
       length: 1,
     ),
     PlateSlot(
       alphabet: UruguayAlphabets.letters,
-      box: PlateBox(left + pitch, top, 2 * pitch, height),
+      box: PlateBox(lettersLeft + lettersPitch, top, 2 * lettersPitch, height),
       length: 2,
-      spacing: max(0, pitch - 0.6 * 0.72 * height),
+      spacing: max(0, lettersPitch - 0.6 * 0.72 * height),
+    ),
+    PlateSlot(
+      alphabet: UruguayAlphabets.digits,
+      box: PlateBox(
+        digitsRight - digits * digitsPitch,
+        top,
+        digits * digitsPitch,
+        height,
+      ),
+      length: digits,
+      minLength: digits > 1 ? 1 : null,
     ),
   ];
-
-  /// The number, right-aligned to [right]; [count] is the most it holds, and
-  /// it may be as short as one digit.
-  static PlateSlot _digits({
-    required double right,
-    required double pitch,
-    required double top,
-    required double height,
-    required int count,
-  }) => PlateSlot(
-    alphabet: UruguayAlphabets.digits,
-    box: PlateBox(right - count * pitch, top, count * pitch, height),
-    length: count,
-    minLength: count > 1 ? 1 : null,
-  );
 
   static PlateSpec _spec({
     required String id,

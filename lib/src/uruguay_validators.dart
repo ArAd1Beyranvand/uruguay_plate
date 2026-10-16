@@ -4,11 +4,7 @@ import 'package:plate_core/plate_core.dart';
 /// a department code (A to S), and one to four digits in `number` (the
 /// President of a Departmental Assembly's plate carries one).
 ///
-/// The category is told by the last two letters (`OF` official, `AM`
-/// ambulance, `ME` doctor, `ED` assembly, `PE` its president, `RE` remise,
-/// `TX` taxi, `TC` public transport, `ES` school, `MT`/`TU` tourist, `TP`
-/// truck, `AL` rental, `CD`/`CC` diplomatic); any letters pass. Reports, never
-/// bars a keystroke.
+/// The category letters are not checked. Reports, never bars a keystroke.
 class UruguayValidator extends GatedPlateValidator {
   const UruguayValidator();
 
