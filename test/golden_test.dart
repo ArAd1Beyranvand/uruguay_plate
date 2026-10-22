@@ -24,62 +24,30 @@ void main() {
   });
 
   /// category id -> (spec, theme, space-separated sample value)
-  final Map<String, (PlateSpec, PlateTheme, String)>
-  cases = <String, (PlateSpec, PlateTheme, String)>{
-    'private': (UruguayPlates.private, UruguayThemes.private, 'L AA 2821'),
-    'official': (
-      UruguayPlates.official,
-      UruguayThemes.official,
-      'S OF 1057',
-    ),
-    'ambulance': (
-      UruguayPlates.ambulance,
-      UruguayThemes.medical,
-      'L AM 1032',
-    ),
-    'doctor': (UruguayPlates.doctor, UruguayThemes.medical, 'L ME 1096'),
-    'assembly': (
-      UruguayPlates.assembly,
-      UruguayThemes.assembly,
-      'L ED 0028',
-    ),
-    'president': (UruguayPlates.president, UruguayThemes.president, 'L PE 1'),
-    'remise': (UruguayPlates.remise, UruguayThemes.yellow, 'L RE 1058'),
-    'taxi': (UruguayPlates.taxi, UruguayThemes.yellow, 'L TX 1009'),
-    'transport': (
-      UruguayPlates.publicTransport,
-      UruguayThemes.yellow,
-      'L TC 1033',
-    ),
-    'school': (UruguayPlates.school, UruguayThemes.yellow, 'L ES 1234'),
-    'tourist': (UruguayPlates.tourist, UruguayThemes.yellow, 'L MT 1002'),
-    'truck': (UruguayPlates.truck, UruguayThemes.truck, 'A TP 1234'),
-    'rental': (UruguayPlates.rental, UruguayThemes.rental, 'L AL 1209'),
-    'diplomatic': (
-      UruguayPlates.diplomatic,
-      UruguayThemes.diplomatic,
-      'S CD 1234',
-    ),
-    'private_short': (
-      UruguayPlates.private,
-      UruguayThemes.private,
-      'L AA 21',
-    ),
-    'mercosur': (
-      UruguayPlates.mercosur,
-      UruguayThemes.mercosur,
-      'B GA 0406',
-    ),
-  };
+  final Map<String, (PlateSpec, PlateTheme, String)> cases =
+      <String, (PlateSpec, PlateTheme, String)>{
+        'private': (UruguayPlates.private, UruguayThemes.private, 'L AA 2821'),
+        'official': (UruguayPlates.official, UruguayThemes.official, 'S OF 1057'),
+        'ambulance': (UruguayPlates.ambulance, UruguayThemes.medical, 'L AM 1032'),
+        'doctor': (UruguayPlates.doctor, UruguayThemes.medical, 'L ME 1096'),
+        'assembly': (UruguayPlates.assembly, UruguayThemes.assembly, 'L ED 0028'),
+        'president': (UruguayPlates.president, UruguayThemes.president, 'L PE 1'),
+        'remise': (UruguayPlates.remise, UruguayThemes.yellow, 'L RE 1058'),
+        'taxi': (UruguayPlates.taxi, UruguayThemes.yellow, 'L TX 1009'),
+        'transport': (UruguayPlates.publicTransport, UruguayThemes.yellow, 'L TC 1033'),
+        'school': (UruguayPlates.school, UruguayThemes.yellow, 'L ES 1234'),
+        'tourist': (UruguayPlates.tourist, UruguayThemes.yellow, 'L MT 1002'),
+        'truck': (UruguayPlates.truck, UruguayThemes.truck, 'A TP 1234'),
+        'rental': (UruguayPlates.rental, UruguayThemes.rental, 'L AL 1209'),
+        'diplomatic': (UruguayPlates.diplomatic, UruguayThemes.diplomatic, 'S CD 1234'),
+        'private_short': (UruguayPlates.private, UruguayThemes.private, 'L AA 21'),
+        'mercosur': (UruguayPlates.mercosur, UruguayThemes.mercosur, 'B GA 0406'),
+      };
 
-  for (final MapEntry<String, (PlateSpec, PlateTheme, String)> c
-      in cases.entries) {
+  for (final MapEntry<String, (PlateSpec, PlateTheme, String)> c in cases.entries) {
     testWidgets(c.key, (tester) async {
       final (PlateSpec spec, PlateTheme theme, String values) = c.value;
-      final PlateController controller = PlateController.fromValues(
-        spec,
-        values.split(' '),
-      );
+      final PlateController controller = PlateController.fromValues(spec, values.split(' '));
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -101,20 +69,18 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      await expectLater(
-        find.byType(PlateView),
-        matchesGoldenFile('goldens/uy_${c.key}.png'),
-      );
+      await expectLater(find.byType(PlateView), matchesGoldenFile('goldens/uy_${c.key}.png'));
       await tester.pumpWidget(const SizedBox.shrink());
       controller.dispose();
     });
   }
 
   test('the number completes from one digit', () {
-    final PlateController controller = PlateController.fromValues(
-      UruguayPlates.private,
-      <String?>['L', 'AA', '2'],
-    );
+    final PlateController controller = PlateController.fromValues(UruguayPlates.private, <String?>[
+      'L',
+      'AA',
+      '2',
+    ]);
     expect(controller.isCompleted, isTrue);
     controller.setAt(2, '');
     expect(controller.isCompleted, isFalse);

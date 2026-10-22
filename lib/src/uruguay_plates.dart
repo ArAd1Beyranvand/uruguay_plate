@@ -88,18 +88,12 @@ class _Serial {
 /// letters, the first a department code) and `number`. Colour is a theme: see
 /// `UruguayThemes`.
 abstract final class UruguayPlates {
-  static final PlateSpec private = _serial(
-    const _Serial('uy.private', 'URUGUAY', 30),
-  );
-  static final PlateSpec official = _serial(
-    const _Serial('uy.official', 'OFICIAL - URUGUAY', 32),
-  );
+  static final PlateSpec private = _serial(const _Serial('uy.private', 'URUGUAY', 30));
+  static final PlateSpec official = _serial(const _Serial('uy.official', 'OFICIAL - URUGUAY', 32));
   static final PlateSpec ambulance = _serial(
     const _Serial('uy.ambulance', 'URUGUAY', 30, cross: true),
   );
-  static final PlateSpec doctor = _serial(
-    const _Serial('uy.doctor', 'URUGUAY', 30, cross: true),
-  );
+  static final PlateSpec doctor = _serial(const _Serial('uy.doctor', 'URUGUAY', 30, cross: true));
   static final PlateSpec assembly = _serial(
     const _Serial('uy.assembly', 'EDIL JUNTA DEPARTAMENTAL', 26),
   );
@@ -111,34 +105,18 @@ abstract final class UruguayPlates {
       digits: 1,
       background: PlateSection.rows(<PlatePart>[
         PlatePart(PlateSection.plain, end: _Layout.presidentBandEnd),
-        PlatePart(
-          PlateSection.fill(PlateFill.color(UruguayColors.presidentLight)),
-        ),
+        PlatePart(PlateSection.fill(PlateFill.color(UruguayColors.presidentLight))),
       ]),
     ),
   );
-  static final PlateSpec remise = _serial(
-    const _Serial('uy.remise', 'REMISE', 30),
-  );
+  static final PlateSpec remise = _serial(const _Serial('uy.remise', 'REMISE', 30));
   static final PlateSpec taxi = _serial(const _Serial('uy.taxi', 'TAXI', 30));
-  static final PlateSpec publicTransport = _serial(
-    const _Serial('uy.transport', 'URUGUAY', 30),
-  );
-  static final PlateSpec school = _serial(
-    const _Serial('uy.school', 'ESCOLAR', 30),
-  );
-  static final PlateSpec tourist = _serial(
-    const _Serial('uy.tourist', 'TURISMO - URUGUAY', 32),
-  );
-  static final PlateSpec truck = _serial(
-    const _Serial('uy.truck', 'CARGA URUGUAY', 32),
-  );
-  static final PlateSpec rental = _serial(
-    const _Serial('uy.rental', 'ALQUILER - URUGUAY', 32),
-  );
-  static final PlateSpec diplomatic = _serial(
-    const _Serial('uy.diplomatic', 'URUGUAY', 30),
-  );
+  static final PlateSpec publicTransport = _serial(const _Serial('uy.transport', 'URUGUAY', 30));
+  static final PlateSpec school = _serial(const _Serial('uy.school', 'ESCOLAR', 30));
+  static final PlateSpec tourist = _serial(const _Serial('uy.tourist', 'TURISMO - URUGUAY', 32));
+  static final PlateSpec truck = _serial(const _Serial('uy.truck', 'CARGA URUGUAY', 32));
+  static final PlateSpec rental = _serial(const _Serial('uy.rental', 'ALQUILER - URUGUAY', 32));
+  static final PlateSpec diplomatic = _serial(const _Serial('uy.diplomatic', 'URUGUAY', 30));
 
   /// The 2016 Mercosur plate: a blue band with `URUGUAY` above the serial.
   static final PlateSpec mercosur = _mercosur();
@@ -250,12 +228,7 @@ abstract final class UruguayPlates {
     ),
     PlateSlot(
       alphabet: UruguayAlphabets.digits,
-      box: PlateBox(
-        digitsRight - digits * digitsPitch,
-        top,
-        digits * digitsPitch,
-        height,
-      ),
+      box: PlateBox(digitsRight - digits * digitsPitch, top, digits * digitsPitch, height),
       length: digits,
       minLength: digits > 1 ? 1 : null,
     ),
@@ -273,10 +246,7 @@ abstract final class UruguayPlates {
       country: UruguayCountry.uruguay,
       canvasWidth: _Layout.width,
       canvasHeight: _Layout.height,
-      panel: const PlatePanel(
-        box: PlateBox(0, 0, 0, _Layout.height),
-        padding: EdgeInsets.zero,
-      ),
+      panel: const PlatePanel(box: PlateBox(0, 0, 0, _Layout.height), padding: EdgeInsets.zero),
       background: background,
       slots: slots,
       rules: rules,
