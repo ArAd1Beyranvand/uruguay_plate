@@ -1,7 +1,7 @@
 name: uruguay_plate
 description: "Uruguay's licence plates for the plate_core library — 2007 serial plates by category and the 2016 Mercosur plate, themes, alphabets, advisory validator."
 version: 0.1.0
-publish_to: none
+repository: https://github.com/ArAd1Beyranvand/uruguay_plate
 resolution: workspace
 
 environment:
